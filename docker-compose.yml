@@ -1,0 +1,22 @@
+version: '3.9'
+
+networks:
+  internal:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:latest
+    container_name: rentcar-db
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: rentcar
+    networks:
+      - internal
+    volumes:
+      - ./src/main/resources/db/initDB.sql:/docker-entrypoint-initdb.d/initDB.sql
+      - ./src/main/resources/db/populateDB.sql:/populateDB.sql
